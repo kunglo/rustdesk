@@ -81,12 +81,6 @@ jobs:
             cp -f res/logo.png res/logo.png || true
           fi
 
-      - name: Generate flutter bridge
-        shell: bash
-        run: |
-          cargo install flutter_rust_bridge_codegen --version 1.80.1 --features "uuid"
-          flutter_rust_bridge_codegen --rust-input src/flutter_ffi.rs --dart-output flutter/lib/generated_bridge.dart
-
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@ebc0426251bc40c7cd31162802432c68818ab8f0 # v2.0.9
         with:
@@ -123,6 +117,12 @@ jobs:
           toolchain: ${{ env.SCITER_RUST_VERSION }}
           targets: ${{ matrix.job.target }}
           components: "rustfmt"
+
+      - name: Generate flutter bridge
+        shell: bash
+        run: |
+          cargo install flutter_rust_bridge_codegen --version 1.80.1 --features "uuid"
+          flutter_rust_bridge_codegen --rust-input src/flutter_ffi.rs --dart-output flutter/lib/generated_bridge.dart
 
       - uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
         with:
