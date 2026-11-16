@@ -69,6 +69,22 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Inject BEENET Server Config and Branding
+        shell: bash
+        run: |
+          echo "Injecting BEENET server IP and Key into hbb_common config..."
+          sed -i 's|"rs-ny.rustdesk.com"|"143.198.91.98"|g' libs/hbb_common/src/config.rs || true
+          sed -i 's|OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=|+l8t2YBK4LryUoolYFwMP3MFVq2axQ9JQgHzX1CchIQ=|g' libs/hbb_common/src/config.rs || true
+          
+          echo "Replacing icons with BEENET Logo..."
+          if [ -f "res/logo.ico" ]; then
+            cp -f res/logo.ico flutter/windows/runner/resources/app_icon.ico || true
+          fi
+          if [ -f "res/logo.png" ]; then
+            cp -f res/logo.png flutter/assets/logo.png || true
+            cp -f res/logo.png res/logo.png || true
+          fi
+
       - name: Restore bridge files
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
