@@ -75,6 +75,7 @@ jobs:
           echo "Injecting BEENET domain and Key into config..."
           sed -i 's|"rs-ny.rustdesk.com"|"rustdesk.beenet-onlineservice.com"|g' libs/hbb_common/src/config.rs || true
           sed -i 's|OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=|+l8t2YBK4LryUoolYFwMP3MFVq2axQ9JQgHzX1CchIQ=|g' libs/hbb_common/src/config.rs || true
+          sed -i 's|pub static ref PROD_RENDEZVOUS_SERVER: RwLock<String> = RwLock::new("".to_owned());|pub static ref PROD_RENDEZVOUS_SERVER: RwLock<String> = RwLock::new("rustdesk.beenet-onlineservice.com".to_owned());|g' libs/hbb_common/src/config.rs || true
           
           if [ -f "res/logo.ico" ]; then
             cp -f res/logo.ico flutter/windows/runner/resources/app_icon.ico || true
